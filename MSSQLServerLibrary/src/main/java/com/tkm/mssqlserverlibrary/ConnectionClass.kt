@@ -12,7 +12,7 @@ class ConnectionClass {
         private var isConnection: Connection? = null
         private var isMessage: String? = null
 
-        fun connectServer(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
+        fun openConnection(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
@@ -23,7 +23,7 @@ class ConnectionClass {
 
                 isSuccess = true
                 isConnection = connection
-                isMessage = "Success"
+                isMessage = "Connected"
 
             } catch (ex: SQLException) {
 
@@ -48,6 +48,15 @@ class ConnectionClass {
                 Log.e("error here 3 : ", ex.message.toString())
             }
             return ResponseConnection(isSuccess, isConnection, isMessage)
+        }
+
+        fun isConnect(): Boolean {
+            return !isConnection?.isClosed!!
+        }
+
+        fun closeConnection() {
+            val isOpen = !isConnection?.isClosed!!
+            if (isOpen) isConnection?.close()
         }
     }
 }
