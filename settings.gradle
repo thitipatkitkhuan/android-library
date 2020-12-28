@@ -1,0 +1,3 @@
+include ':MSSQLServerLibrary'
+include ':app'
+rootProject.name = "Library"
