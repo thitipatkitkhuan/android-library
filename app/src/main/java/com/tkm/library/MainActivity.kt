@@ -7,13 +7,15 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import com.tkm.mssqlserverlibrary.ConnectionClass
 import com.tkm.mssqlserverlibrary.ResponseConnection
+import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var connection: ResponseConnection
+    private var connection: ResponseConnection? = null
 
     companion object {
         private const val server = "192.168.0.148"
@@ -28,29 +30,43 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.INTERNET),PackageManager.PERMISSION_GRANTED)
-
-        connection = ConnectionClass.openConnection(server, port, database, username, password, timeout)
-
-        if (connection.isSuccess) {
-            var statement: Statement? = null
-            try {
-                statement = connection.isConnection!!.createStatement()
-                val resultSet: ResultSet = statement.executeQuery("SELECT [user_position] FROM [Users] Where [user_id] = '2';")
-                while (resultSet.next()) {
-                    println("Read: " + resultSet.getString(1))
-                }
-                //ConnectionClass.closeConnection()
-            } catch (e: SQLException) {
-                e.printStackTrace()
-            }
-        } else {
-            println("Connection is null")
-        }
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET), PackageManager.PERMISSION_GRANTED)
 
     }
 
-    fun disConnect(view: View) {
-        ConnectionClass.closeConnection() 
+    fun connect(view: View) {
+        connection = ConnectionClass.openConnection(server, port, database, username, password, timeout)
+        if (connection?.isConnection!=null) {
+            tv_status.text = connection?.isMessage
+        } else {
+            tv_status.text = connection?.isMessage
+        }
+    }
+
+    fun disconnect(view: View) {
+        if (ConnectionClass.closeConnection()) {
+            tv_status.text = "Disconnected"
+        } else {
+            tv_status.text = "Disconnected fail"
+        }
+    }
+
+    fun getInformation(view: View) {
+        if (connection?.isConnection!=null) {
+            var statement: Statement? = null
+            try {
+                statement = connection?.isConnection!!.createStatement()
+                val resultSet: ResultSet = statement.executeQuery("SELECT [user_position] FROM [Users] Where [user_id] = '2';")
+                while (resultSet.next()) {
+                    println("Read: " + resultSet.getString(1))
+                    tv_result.text = resultSet.getString(1)
+                }
+                ConnectionClass.closeConnection()
+            } catch (e: SQLException) {
+                tv_result.text = e.message.toString()
+            }
+        } else {
+            tv_result.text = "Connection is null"
+        }
     }
 }

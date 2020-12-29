@@ -8,9 +8,9 @@ import java.sql.SQLException
 
 class ConnectionClass {
     companion object {
-        private var isSuccess = false
         private var isConnection: Connection? = null
         private var isMessage: String? = null
+        private var isSuccess: Boolean = false
 
         fun openConnection(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -21,53 +21,42 @@ class ConnectionClass {
                 val connectionURL = "jdbc:jtds:sqlserver://$server:$port;databaseName=$database;loginTimeout=$timeout;socketTimeout=$timeout"
                 val connection = DriverManager.getConnection(connectionURL, user, password)
 
-                isSuccess = true
                 isConnection = connection
                 isMessage = "Connected"
 
             } catch (ex: SQLException) {
 
-                isSuccess = false
                 isConnection = null
                 isMessage = ex.message.toString()
 
                 Log.e("error here 1 : ", ex.message.toString())
             } catch (ex: ClassNotFoundException) {
 
-                isSuccess = false
                 isConnection = null
                 isMessage = ex.message.toString()
 
                 Log.e("error here 2 : ", ex.message.toString())
             } catch (ex: Exception) {
 
-                isSuccess = false
                 isConnection = null
                 isMessage = ex.message.toString()
 
                 Log.e("error here 3 : ", ex.message.toString())
             }
-            return ResponseConnection(isSuccess, isConnection, isMessage)
+            return ResponseConnection(isConnection, isMessage)
         }
 
-        fun closeConnection(): ResponseConnection {
-            try {
-                val isOpen = !isConnection?.isClosed!!
-                if (isOpen) isConnection?.close()
-
-                isSuccess = true
-                isConnection = null
-                isMessage = "Disconnected"
-
-            }catch (ex: Exception){
-
-                isSuccess = false
-                isConnection = null
-                isMessage = ex.message.toString()
-
+        fun closeConnection(): Boolean {
+            return try {
+                if (isConnection!=null) {
+                    val isOpen = !isConnection?.isClosed!!
+                    if (isOpen) isConnection?.close()
+                }
+                true
+            } catch (ex: Exception) {
                 Log.e("error here 4 : ", ex.message.toString())
+                false
             }
-            return ResponseConnection(isSuccess, isConnection, isMessage)
         }
     }
 }
