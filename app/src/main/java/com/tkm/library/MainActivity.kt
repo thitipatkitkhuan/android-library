@@ -36,23 +36,16 @@ class MainActivity : AppCompatActivity() {
 
     fun connect(view: View) {
         connection = ConnectionClass.openConnection(server, port, database, username, password, timeout)
-        if (connection?.isConnection!=null) {
+        if (connection?.isConnection != null) {
             tv_status.text = connection?.isMessage
         } else {
             tv_status.text = connection?.isMessage
-        }
-    }
-
-    fun disconnect(view: View) {
-        if (ConnectionClass.closeConnection()) {
-            tv_status.text = "Disconnected"
-        } else {
-            tv_status.text = "Disconnected fail"
         }
     }
 
     fun getInformation(view: View) {
-        if (connection?.isConnection!=null) {
+        val v = connection?.isConnection
+        if (v != null) {
             var statement: Statement? = null
             try {
                 statement = connection?.isConnection!!.createStatement()
@@ -61,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     println("Read: " + resultSet.getString(1))
                     tv_result.text = resultSet.getString(1)
                 }
-                ConnectionClass.closeConnection()
+                v.close()
             } catch (e: SQLException) {
                 tv_result.text = e.message.toString()
             }

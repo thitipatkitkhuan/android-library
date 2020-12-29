@@ -10,7 +10,6 @@ class ConnectionClass {
     companion object {
         private var isConnection: Connection? = null
         private var isMessage: String? = null
-        private var isSuccess: Boolean = false
 
         fun openConnection(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -44,19 +43,6 @@ class ConnectionClass {
                 Log.e("error here 3 : ", ex.message.toString())
             }
             return ResponseConnection(isConnection, isMessage)
-        }
-
-        fun closeConnection(): Boolean {
-            return try {
-                if (isConnection!=null) {
-                    val isOpen = !isConnection?.isClosed!!
-                    if (isOpen) isConnection?.close()
-                }
-                true
-            } catch (ex: Exception) {
-                Log.e("error here 4 : ", ex.message.toString())
-                false
-            }
         }
     }
 }
