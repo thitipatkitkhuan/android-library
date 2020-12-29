@@ -50,13 +50,24 @@ class ConnectionClass {
             return ResponseConnection(isSuccess, isConnection, isMessage)
         }
 
-        fun isConnect(): Boolean {
-            return !isConnection?.isClosed!!
-        }
+        fun closeConnection(): ResponseConnection {
+            try {
+                val isOpen = !isConnection?.isClosed!!
+                if (isOpen) isConnection?.close()
 
-        fun closeConnection() {
-            val isOpen = !isConnection?.isClosed!!
-            if (isOpen) isConnection?.close()
+                isSuccess = true
+                isConnection = null
+                isMessage = "Disconnected"
+
+            }catch (ex: Exception){
+
+                isSuccess = false
+                isConnection = null
+                isMessage = ex.message.toString()
+
+                Log.e("error here 4 : ", ex.message.toString())
+            }
+            return ResponseConnection(isSuccess, isConnection, isMessage)
         }
     }
 }

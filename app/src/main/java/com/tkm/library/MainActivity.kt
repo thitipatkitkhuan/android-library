@@ -51,12 +51,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun disConnect(view: View) {
-        ConnectionClass.closeConnection()
-
-        if(ConnectionClass.isConnect()){
-            println("+Read: ${ConnectionClass.isConnect()}")
-        }else{
-            println("-Read: ${ConnectionClass.isConnect()}")
-        }
+        ConnectionClass.closeConnection() 
     }
 }
