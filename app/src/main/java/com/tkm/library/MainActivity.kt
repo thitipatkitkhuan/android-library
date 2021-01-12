@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.tkm.mssqlserverlibrary.ConnectionClass
+import com.tkm.mssqlserverlibrary.ParameterResult
 import com.tkm.mssqlserverlibrary.ResponseConnection
 import kotlinx.android.synthetic.main.activity_main.*
 import java.sql.SQLException
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         private const val port = 1433
         private const val database = "OSD_INVC"
         private const val username = "sa"
-        private const val password = "12345"
+        private const val password = "sato12345"
         private const val timeout = 5
     }
 
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 parameters.add(ParameterResult("Password", "1"))
                 parameters.add(ParameterResult("FromHT", true))
 
-                val ps = Utils.setConnection(v,"SP_LOGIN_GET_INFORMATION", parameters)
+                val ps = ConnectionClass.setConnection(v,"SP_LOGIN_GET_INFORMATION", parameters)
 
 
 

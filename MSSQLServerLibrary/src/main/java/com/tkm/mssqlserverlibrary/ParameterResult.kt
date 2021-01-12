@@ -1,4 +1,4 @@
-package com.tkm.library
+package com.tkm.mssqlserverlibrary
 
 data class ParameterResult(
     var column: String,

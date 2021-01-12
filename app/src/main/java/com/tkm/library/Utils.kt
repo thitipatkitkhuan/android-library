@@ -1,5 +1,6 @@
 package com.tkm.library
 
+import com.tkm.mssqlserverlibrary.ParameterResult
 import java.lang.StringBuilder
 import java.sql.Connection
 import java.sql.PreparedStatement
