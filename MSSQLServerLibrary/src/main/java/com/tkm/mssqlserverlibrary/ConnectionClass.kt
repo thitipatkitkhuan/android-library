@@ -44,5 +44,8 @@ class ConnectionClass {
             }
             return ResponseConnection(isConnection, isMessage)
         }
+
+
+
     }
 }
