@@ -1,4 +1,4 @@
-package com.tkm.mssqlserverlibrary
+package com.tkm.library.connection
 
 import android.os.StrictMode
 import android.util.Log
@@ -47,11 +47,11 @@ class ConnectionClass {
             return ResponseConnection(isConnection, isMessage)
         }
 
-        fun setConnection(connection: Connection, column: String, parameters: ArrayList<ParameterResult>): PreparedStatement {
+        fun setConnection(connection: Connection, column: String, parameters: ArrayList<ParameterResult>?): PreparedStatement {
             val sql = StringBuilder()
             sql.append("EXEC $column")
 
-            parameters.forEachIndexed { index, element ->
+            parameters?.forEachIndexed { index, element ->
                 sql.append(" @${element.column} = ?")
                 if(index != (parameters.size - 1)){
                     sql.append(",")
@@ -63,7 +63,7 @@ class ConnectionClass {
             ps.setEscapeProcessing(true)
             ps.queryTimeout = 10
 
-            parameters.forEachIndexed { index, element ->
+            parameters?.forEachIndexed { index, element ->
                 val i = index + 1
                 when (val value = element.value) {
                     is String -> ps.setString(i, value.toString())

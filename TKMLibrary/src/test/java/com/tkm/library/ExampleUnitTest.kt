@@ -1,4 +1,4 @@
-package com.tkm.mssqlserverlibrary
+package com.tkm.library
 
 import org.junit.Test
 

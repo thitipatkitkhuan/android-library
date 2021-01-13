@@ -1,4 +1,4 @@
-package com.tkm.mssqlserverlibrary
+package com.tkm.library
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

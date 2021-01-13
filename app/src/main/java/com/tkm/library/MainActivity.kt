@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
-import com.tkm.mssqlserverlibrary.ConnectionClass
-import com.tkm.mssqlserverlibrary.ParameterResult
-import com.tkm.mssqlserverlibrary.ResponseConnection
+import com.tkm.library.connection.ConnectionClass
+import com.tkm.library.connection.ParameterResult
+import com.tkm.library.connection.ResponseConnection
 import kotlinx.android.synthetic.main.activity_main.*
 import java.sql.SQLException
 import java.sql.Statement

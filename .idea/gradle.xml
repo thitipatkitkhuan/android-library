@@ -11,7 +11,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/MSSQLServerLibrary" />
+            <option value="$PROJECT_DIR$/TKMLibrary" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
