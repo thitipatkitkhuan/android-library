@@ -1,4 +1,4 @@
-package com.tkm.library
+package com.tkm.mylibrary
 
 import org.junit.Test
 

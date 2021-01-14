@@ -1,13 +1,15 @@
-package com.tkm.library
+package com.tkm.mylibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import com.afollestad.materialdialogs.MaterialDialog
 import com.tkm.library.connection.ConnectionClass
 import com.tkm.library.connection.ParameterResult
 import com.tkm.library.connection.ResponseConnection
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
+import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
@@ -16,24 +18,23 @@ class MainActivity : AppCompatActivity() {
     private var connection: ResponseConnection? = null
 
     companion object {
-        private const val server = "192.168.0.181"
+        private const val server = "192.168.2.100"
         private const val port = 1433
         private const val database = "OSD_INVC"
         private const val username = "sa"
-        private const val password = "sato12345"
+        private const val password = "12345"
         private const val timeout = 5
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         //ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET), PackageManager.PERMISSION_GRANTED)
-
     }
 
     fun connect(view: View) {
-        connection = ConnectionClass.openConnection(server, port, database, username, password, timeout)
+        connection =
+            ConnectionClass.openConnection(server, port, database, username, password, timeout)
         if (connection?.isConnection != null) {
             tv_status.text = connection?.isMessage
         } else {
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var resultData: ResultData
+
     fun getInformation(view: View) {
         val v = connection?.isConnection
         if (v != null) {
@@ -61,8 +63,7 @@ class MainActivity : AppCompatActivity() {
                 parameters.add(ParameterResult("Password", "1"))
                 parameters.add(ParameterResult("FromHT", true))
 
-                val ps = ConnectionClass.setConnection(v,"SP_LOGIN_GET_INFORMATION", parameters)
-
+                val ps = ConnectionClass.setConnection(v, "SP_LOGIN_GET_INFORMATION", parameters)
 
 
                 var isResultSet = ps.execute()
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                                         rs.getString("EditUser"),
                                         rs.getString("EditDate")
                                     )
-                                    println(daoUser)
+                                    tv_result.text = daoUser.toString()
                                 }
                             }
                         }
@@ -122,18 +123,96 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var dialog: MaterialDialog? = null
+    fun run(view: View) {
+        tv_status.text = "Loading..."
+        Log.e("Main",  "Name1: ${Thread.currentThread().name}")
 
-    fun showClearDialog() {
-        dialog?.dismiss()
-        dialog = MaterialDialog(this)
-            .title(R.string.delete_all)
-            .message(R.string.are_you_sure_delete_all)
-            .positiveButton(android.R.string.ok, click = {
+        CoroutineScope(Dispatchers.IO).launch {
 
-            })
-            .cornerRadius(16f)
-            .negativeButton(android.R.string.cancel)
-        dialog?.show()
+            val dao = download()
+
+            withContext(Dispatchers.Main){
+                tv_status.text = dao.toString()
+                Log.e("Main",  "Name3: ${Thread.currentThread().name}")
+            }
+        }
+
     }
+
+    private suspend fun download(): UserData? {
+        delay(3000)
+        connection = ConnectionClass.openConnection(server, port, database, username, password, timeout)
+
+        val v = connection?.isConnection
+        if (v != null) {
+
+            val parameters = ArrayList<ParameterResult>()
+            parameters.add(ParameterResult("UserID", "1"))
+            parameters.add(ParameterResult("Password", "1"))
+            parameters.add(ParameterResult("FromHT", true))
+
+            val ps = ConnectionClass.setConnection(v, "SP_LOGIN_GET_INFORMATION", parameters)
+
+            var isResultSet = ps.execute()
+            var count = 0
+
+            while (true) {
+                if (isResultSet) {
+                    val rs = ps.resultSet
+                    while (rs.next()) {
+                        when (count) {
+                            0 -> {
+                                resultData = ResultData(
+                                    rs.getInt("IsComplete"),
+                                    rs.getString("ResponseDescriptionEng"),
+                                    rs.getString("ResponseDescriptionThai")
+                                )
+                                println(resultData)
+                            }
+                            1 -> {
+                                val daoUser = UserData(
+                                    true,
+                                    rs.getString("UserID"),
+                                    rs.getString("Password"),
+                                    rs.getString("FirstName"),
+                                    rs.getString("LastName"),
+                                    rs.getString("Department"),
+                                    rs.getString("UserGroup"),
+                                    rs.getString("Status"),
+                                    rs.getString("CreateUser"),
+                                    rs.getString("CreateDate"),
+                                    rs.getString("EditUser"),
+                                    rs.getString("EditDate")
+                                )
+                                Log.e("Main",  "Name2: ${Thread.currentThread().name}")
+                                return daoUser
+                            }
+                        }
+                    }
+                    rs.close()
+                } else {
+                    if (ps.updateCount == -1) {
+                        println("Result $count is just a count: ${ps.updateCount}")
+                        break
+                    }
+                }
+                count++
+                isResultSet = ps.moreResults
+            }
+
+            v.close()
+        }
+
+        return null
+    }
+
+    fun main() = runBlocking {
+        repeat(1_000_000) { counter ->
+            launch {
+                print(" $counter")
+            }
+        }
+    }
+
+
 }
