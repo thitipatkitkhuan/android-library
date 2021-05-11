@@ -7,68 +7,57 @@
     tools:context="com.tkm.mylibrary.MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_open"
-            android:layout_width="0dp"
+            android:id="@+id/btn_one_value"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="connect"
-            android:text="OPEN" />
+            android:text="1 value" />
 
         <Button
-            android:id="@+id/btn_close"
-            android:layout_width="0dp"
+            android:id="@+id/btn_one_row"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:text="CLOSE" />
+            android:text="1 row" />
 
         <Button
-            android:id="@+id/btn_get"
-            android:layout_width="0dp"
+            android:id="@+id/btn_one_row_parameters"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="getInformation"
-            android:text="GET" />
+            android:text="1 row with parameters" />
+
+        <Button
+            android:id="@+id/btn_many_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Many row" />
+
+        <Button
+            android:id="@+id/btn_many_row_parameters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Many row with parameters" />
+
+        <Button
+            android:id="@+id/btn_many_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Many table" />
+
+        <Button
+            android:id="@+id/btn_many_table_parameters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Many table with parameters" />
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Result"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Run"
-        android:onClick="run"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/tv_status" />
 </androidx.constraintlayout.widget.ConstraintLayout>

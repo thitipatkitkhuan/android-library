@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Library.iml" filepath="$PROJECT_DIR$/.idea/modules/Library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.TKMLibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.TKMLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Library.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Library.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.sqlserverlib.iml" filepath="$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.sqlserverlib.iml" />
     </modules>
   </component>
 </project>
