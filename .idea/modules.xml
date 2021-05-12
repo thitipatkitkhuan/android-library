@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Library.iml" filepath="$PROJECT_DIR$/.idea/modules/Library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Library.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Library.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.sqlserverlib.iml" filepath="$PROJECT_DIR$/.idea/modules/MSSQLServerLibrary/Library.sqlserverlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-library.iml" filepath="$PROJECT_DIR$/.idea/modules/android-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-library.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-library.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sqlserverlib/android-library.sqlserverlib.iml" filepath="$PROJECT_DIR$/.idea/modules/sqlserverlib/android-library.sqlserverlib.iml" />
     </modules>
   </component>
 </project>

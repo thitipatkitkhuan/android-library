@@ -1,3 +1,2 @@
 include ':sqlserverlib'
 include ':app'
-rootProject.name = "Library"
