@@ -10,10 +10,29 @@ import java.sql.SQLException
 
 class ConnectionClass {
     companion object {
-        private var isConnection: Connection? = null
-        private var isMessage: String? = null
 
-        fun openConnection(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
+        fun openConnection(server: String, port: String, database: String, user: String, password: String, timeout: String): Connection? {
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+            val connection: Connection?
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver")
+                val connectionURL = "jdbc:jtds:sqlserver://$server:$port;databaseName=$database;loginTimeout=$timeout;socketTimeout=$timeout"
+                connection = DriverManager.getConnection(connectionURL, user, password)
+            } catch (ex: SQLException) {
+                Log.e("error here 1 : ", ex.message.toString())
+                throw ex
+            } catch (ex: ClassNotFoundException) {
+                Log.e("error here 2 : ", ex.message.toString())
+                throw ex
+            } catch (ex: Exception) {
+                Log.e("error here 3 : ", ex.message.toString())
+                throw ex
+            }
+            return connection
+        }
+
+        /*fun openConnection(server: String, port: Int, database: String, user: String, password: String, timeout: Int): ResponseConnection {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
@@ -45,7 +64,7 @@ class ConnectionClass {
                 Log.e("error here 3 : ", ex.message.toString())
             }
             return ResponseConnection(isConnection, isMessage)
-        }
+        }*/
 
         fun setConnection(connection: Connection, column: String, parameters: ArrayList<ParameterResult>?): PreparedStatement {
             val sql = StringBuilder()
